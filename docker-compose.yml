@@ -1,0 +1,27 @@
+
+services:
+  database:
+    image: influxdb:2.7.10-alpine
+    stdin_open: True
+    tty: True
+    restart: 'no'
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    environment:
+      - "ENV=local"
+      - "INFLUXDB_REPORTING_DISABLED=true"
+      - "INFLUXDB_BIND_ADDRESS=0.0.0.0:8088"
+        # Admin username (mandatory if auth-enabled is true and any other of these environment variables is set)
+      - "INFLUXDB_ADMIN_USER=admin"
+        # Admin password (Password will be generated and printed if not set)
+      - "INFLUXDB_ADMIN_PASSWORD=changeme"
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb2
+    ports:
+      - "8086:8086"
+      - "8088:8088"
+
+
+
